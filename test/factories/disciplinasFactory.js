@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-export function novaDisciplina() {
+export function git anovaDisciplina() {
     const timestamp = Date.now();
 
     return {
