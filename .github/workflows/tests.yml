@@ -34,6 +34,21 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
+      - name: Subir servidor da API
+        run: |
+          node src/server.js &
+          for i in $(seq 1 30); do
+            if curl -s -o /dev/null http://localhost:3000/api/auth/login; then
+              echo "API pronta"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "API não respondeu a tempo" >&2
+          exit 1
+        env:
+          MONGODB_URI: mongodb://127.0.0.1:27017/gestao-de-alunos-test      
+
       - name: Executar testes
         run: npm test
         env:
